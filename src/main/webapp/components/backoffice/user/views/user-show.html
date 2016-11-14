@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <div class="row vertical-align">
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <h3 class="modal-title"><i class="fa fa-info-circle fa-fw"></i> {{'User details'}} : {{::user.email}}</h3>
+        </div>
+    </div>
+</div>
+<div class="modal-body">
+	<fieldset>
+		<div class="panel panel-default">
+			<div class="panel-heading">{{'General informations'|translate}}</div>
+			<div class="panel-body normal">
+                <p>
+                    <i class="fa fa-user"></i> {{::user.firstName}} {{::user.lastName}}<br>
+                    <i class="fa fa-at"></i> {{::user.email}}<br>
+                    <i class="fa fa-phone"></i> {{::user.phone}}<br>
+                    <i class="fa fa-user-plus"></i> <strong>{{'Role'|translate}}</strong> : <a href popover-title="{{'Rights'|translate}}" popover="{{rights.join(', ')}}" popover-trigger="mouseenter" popover-placement="right">
+                        {{::user.role.name}}
+                    </a><br>
+                    <span ng-if="type === 'SANOFI'"><i class="fa fa-user"></i> <strong>{{'Position'|translate}}</strong> : {{::user.position}}<br></span>
+                    <i class="fa fa-building"></i> <strong>{{'Entity'|translate}}</strong> : {{::user.entity.name}}<br>
+                    <i class="fa fa-globe"></i> <strong>{{'Country'|translate}}</strong> : {{::user.country.name}} ({{::user.country.code}})<br>
+                </p>
+			</div>
+		</div>
+	</fieldset>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning btn-sm" ng-click="cancel()"><i class="fa fa-undo"></i> {{'Close'|translate}}</button>
+</div>

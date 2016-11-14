@@ -1,0 +1,193 @@
+<div>
+    <div class="row">
+        <div class="col-md-3 block-date">
+            <div style="margin-left: 10px;"> <br/>
+                <div class="time-zone animate-if" ng-click="getHistory('today')" ng-class="{'isclicked':menuactive == 'today'}">&nbsp;&nbsp; <span> {{'Today' | translate}} {{now | date : "dd-MM-yyyy"}} </span> </div>
+                <div class="time-zone" ng-click="getHistory('yesterday')" ng-class="{'isclicked':menuactive == 'yesterday'}"> &nbsp;&nbsp;<span>  Yesteraday {{dateToShow['yesterday'].start | date : "dd-MM-yyyy"}} </span> </div>
+                <div class="time-zone" ng-click="getHistory('thisweek')" ng-class="{'isclicked':menuactive == 'thisweek'}"> &nbsp;&nbsp;<span> This week {{dateToShow['thisweek'].start | date : "dd-MM-yyyy"}}
+                        <span class="fa fa-long-arrow-right sizeicon fleshPostion"></span> {{dateToShow['thisweek'].end | date : "dd-MM-yyyy"}} </span>
+                </div>
+                <div class="time-zone" ng-click="getHistory('thisMonth')" ng-class="{'isclicked':menuactive == 'thisMonth'}"> &nbsp;&nbsp;<span>  This Month {{dateToShow['thisMonth'].start | date : "dd-MM-yyyy"}}
+                        <span class="fa fa-long-arrow-right sizeicon fleshPostion"></span> {{dateToShow['thisMonth'].end | date : "dd-MM-yyyy"}}</span>
+                </div>
+                <div class="time-zone" ng-click="getHistory('byMonths')" ng-class="{'isclicked':menuactive == 'byMonths'}"> &nbsp;&nbsp;<span>  Old </span> </div>
+                <div ng-repeat="y in years" ng-if="menuactive == 'byMonths'">
+                    <p ng-click="getActionByMonths(y)" class="years">{{y}}</p>
+                    <p ng-repeat="m in months[y]" class="months click" ng-click="showAction(y,m)">{{m}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 "> <br/>
+            <div class="col-md-12 deleteDefaultpadding">
+                <div class="input-group"> <span class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </span> <input type="text" class="form-control" ng-model="filter.query" placeholder="{{'Search'|translate}}" /> </div>
+            </div>
+            <div class="col-md-1 checkbox-button-delete ">
+                <div class="input-group"> <span class="input-group-btn">
+                        <span class="deleteDefaultpadding col-md-1" ng-if="history.currentVisible.length>0">
+                             &nbsp;
+                             <input id="all" class="css-checkbox" type="checkbox"  ng-checked="history.currentVisible.length == elementToDelete.length" class="checkTodelete" ng-click="addAll()"  />
+                            <label for="all" name="demo_lbl_1" class="css-label">&nbsp;</label>
+                        </span> </span> <button ng-if='history.currentVisible.length>0 && elementToDelete.length>0' class="form-control btn btn-danger btn-xs col-md-1" ng-click="deleteAction()" style="height: 70%;"><span class="fa fa-trash"></span></button> </div>
+            </div>
+            <div ng-repeat="action in history.currentVisible | orderBy : '-createdAt'" class="animate-repeat">
+                <div class="col-md-12 action-summrize">
+                    <p> <span class="col-md-11 deleteDefaultpadding">
+                             
+                             <input id="{{action._id}}" class="css-checkbox" type="checkbox" ng-checked="elementToDelete.indexOf(action._id) != -1" ng-click="addTodelete(action._id)"/>
+                            <label for="{{action._id}}" name="demo_lbl_1" class="css-label">&nbsp;</label>
+                             <span>{{action.createdAt | date: "dd/MM/yyyy HH:mm:ss"}} </span> <b ng-if="action.user">{{action.user.firstName}} {{action.user.lastName}}</b> <b ng-if="!action.user">{{"Super admin" |translate}}</b> <span ng-bind-html='getActionDescription(action)'></span> </span> <span ng-class="{'fa-eye-slash':showdetail[action._id]}" class="fa  fa-eye sizeicon click detail-action align-right col-md-1" ng-click="showdetail[action._id] = !showdetail[action._id]"></span> </P>
+                </div>
+                <div ng-if='showdetail[action._id]' class="head-history col-md-12">
+                    <div class="col-md-6"> <span class="fa fa fa-suitcase"></span> <b> Product : </b> <span class="data-analyse">{{action.product.name}}
+                        </sapn>
+                    </div >
+                    <div  class="col-md-6" ng-if="getSubproduct(action.product,action.subproduct)">
+                        <span class="fa fa fa-list"></span> <b> Subproduct : </b> <span class="data-analyse">{{getSubproduct(action.product,action.subproduct).name}}
+                        </sapn>
+                    </div >
+                    <div   class="col-md-6" ng-if="getRequirement(action.product,action.requirement)">
+                        <span class="fa fa fa-minus-square-o "></span> <b> Requirement : </b> <span class="data-analyse">{{getRequirement(action.product,action.requirement).name}}
+                        </sapn>
+                    </div>
+                </div>
+                <div ng-if='showdetail[action._id]' >
+                    <div class="myTask " ng-class="{'col-md-12':!action.last,'col-md-6':action.last}">
+                        <fieldset class='col-md-12'>
+                            <div >
+                                <div class="caption  action-header  ">
+                                    
+                                    <br/>
+                                    <div class="ribbon"  ng-if='action.last'>
+                                        <div class="ribbon-stitches-top"></div>
+                                        <strong class="ribbon-content">
+                                            <h1><b>{{'Old version' |translate}}</b></h1>
+                                        </strong>
+                                        <div class="ribbon-stitches-bottom"></div>
+                                    </div>
+                                     <br/>
+                                </div>
+                                <br/>
+                               <table class='table tabel-dashed'>
+                                        <tr>
+                                            <td class="key-table"> 
+                                                <span class="fa fa fa-bookmark"></span> <b>Name  </b></td>
+                        <td> <span class="data-analyse">{{action.old.name}}</sapn>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="key-table">
+                                                <span class="fa fa fa-adn"></span> <b>
+                                                Description </b> </td>
+                        <td> <span class="data-analyse">{{action.old.description}}</sapn>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td  class="key-table">
+                                                 <span class="fa fa fa-user"></span> <b>Assignee to  </b> </td>
+                        <td> <span class="data-analyse">{{getuser(action.old.assignTo).firstName}} &nbsp;{{getuser(action.old.assignTo).lastName}}</sapn>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="key-table">
+                                                 <span class="fa  fa-percent"></span> <b>Progress  </b> </td>
+                        <td>
+                            <div class="progress collaborators-progress deleteDefaultpadding">
+                                <div class="progress-bar " role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:{{getProgress(action.old)}}%"> <span style="color:black">{{getProgress(action.old)}}%</span> </div>
+                            </div>
+                        </td>
+                        </tr>
+                        <tr>
+                            <td class="key-table"> <span class="fa fa-hourglass-start"></span> <b>Estimation </b> </td>
+                            <td> <span class="data-analyse">{{action.old.estimation}} {{action.old.unit}}</span> </td>
+                        </tr>
+                        <tr>
+                            <td class="key-table"> <span class="fa fa-clock-o"></span> <b>Created at  </b> </td>
+                            <td> <span class="data-analyse">{{action.old.createdAt | date:"dd/MM/yyyy"}}</span> </td>
+                        </tr>
+                        <tr>
+                            <td class="key-table"> <span class="fa fa-exclamation-circle"></span> <b>Priority  </b> </td>
+                            <td> <span class="{{getLabelPriority(action.old.priority)}} priority-label">{{action.old.priority}}</span> </td>
+                        </tr>
+                        <tr>
+                            <td class="key-table"> <span class=" fa fa-trst-alt"></span> <b> Severity </b> </td>
+                            <td> <span class="{{getLabelSeverity(action.old.severity)}} priority-label">{{action.old.severity}}</span> </td>
+                        </tr>
+                        <tr>
+                            <td class="key-table"><span class=" fa fa-asterisk"></span> <b>{{'State  '|translate}}</b></td>
+                            <td> <span>{{action.old.state}}</span> </td>
+                        </tr>
+                        </table>
+                    </div>
+                    </fieldset>
+                </div>
+                <div class="myTask col-md-6" ng-if='action.last'>
+                    <fieldset class='col-md-12'>
+                        <div>
+                            <div class="caption  action-header  "> <br/>
+                                <div class="ribbon" ng-if='action.last'>
+                                    <div class="ribbon-stitches-top"></div> <strong class="ribbon-content">
+                                            <h1><b>{{'New version' |translate}}</B></h1>
+                                        </strong>
+                                    <div class="ribbon-stitches-bottom"></div>
+                                </div> <br/> </div> <br/>
+                            <!--  <ul type="none" class="collaborators-page "  > -->
+                            <table class='table tabel-dashed'>
+                                <tr>
+                                    <td class="key-table"> <span class="fa fa fa-bookmark"></span> <b>Name  </b></td>
+                                    <td> <span class="data-analyse">{{action.last.name}}</sapn>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="key-table">
+                                                <span class="fa fa fa-adn"></span> <b>
+                                                Description  </b> </td>
+                                    <td> <span class="data-analyse">{{action.last.description}}</sapn>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="key-table">
+                                                 <span class="fa fa fa-user"></span> <b>Assignee to </b> </td>
+                                    <td> <span class="data-analyse">{{getuser(action.last.assignTo).firstName}} &nbsp;{{getuser(action.last.assignTo).lastName}}</sapn>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="key-table">
+                                                 <span class="fa  fa-percent"></span> <b>Progress </b> </td>
+                                    <td>
+                                        <div class="progress collaborators-progress deleteDefaultpadding">
+                                            <div class="progress-bar " role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:{{getProgress(action.last)}}%"> <span style="color:black">{{getProgress(action.last)}}%</span> </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="key-table"> <span class="fa fa-hourglass-start"></span> <b>Estimation  </b> </td>
+                                    <td> <span class="data-analyse">{{action.last.estimation}} {{action.last.unit}}</span> </td>
+                                </tr>
+                                <tr>
+                                    <td class="key-table"> <span class="fa fa-clock-o"></span> <b>Created at </b> </td>
+                                    <td> <span class="data-analyse">{{action.last.createdAt | date:"dd/MM/yyyy"}}</span> </td>
+                                </tr>
+                                <tr>
+                                    <td class="key-table"> <span class="fa fa-exclamation-circle"></span> <b>Priority  </b> </td>
+                                    <td> <span class="{{getLabelPriority(action.last.priority)}} priority-label">{{action.last.priority}}</span> </td>
+                                </tr>
+                                <tr>
+                                    <td class="key-table"> <span class=" fa fa-trst-alt"></span> <b> Severity </b> </td>
+                                    <td> <span class="{{getLabelSeverity(action.last.severity)}} priority-label">{{action.last.severity}}</span> </td>
+                                </tr>
+                                <tr>
+                                    <td><span class=" fa fa-asterisk"></span> <b>{{'State '|translate}}</b></td>
+                                    <td> <span>{{action.last.state}}</span> </td>
+                                </tr>
+                            </table>
+                            </ul>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

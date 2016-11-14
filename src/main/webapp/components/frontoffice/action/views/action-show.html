@@ -1,0 +1,181 @@
+  <div class="col-md-12 action-summrize">
+                    <p>
+                        <span class="col-md-11">
+                            <a>
+                                <span class="fa fa-calendar  "></span>
+                            </a> &nbsp;&nbsp;
+                            
+                            <span>{{action.createdAt | date: "dd/MM/yyyy HH:mm:ss"}} </span>
+                            <b ng-if="action.user">{{action.user.firstName}} {{action.user.lastName}}</b>
+                            <b ng-if="!action.user">{{"Super admin" |translate}}</b>
+                            <span ng-bind-html='getActionDescription(action)' ></span>
+                        </span>
+                        <span class="fa fa-eye sizeicon click detail-action align-right col-md-1" ng-click="showdetail[action._id] = !showdetail[action._id]" ></span>
+                    </P>
+                </div>
+                <div ng-if='showdetail[action._id]' class="head-history ">
+                     <div  class="col-md-6">
+                            <span class="fa fa fa-suitcase"></span>&nbsp;&nbsp;
+                                <b> Product : </b>
+                                <span class="data-analyse">{{action.product.name}}
+                                </sapn>
+                        </div >
+                        <div  class="col-md-6" ng-if="getSubproduct(action.product,action.subproduct)">
+                                <span class="fa fa fa-list"></span>&nbsp;&nbsp;
+                                <b> Subproduct : </b>
+                                <span class="data-analyse">{{getSubproduct(action.product,action.subproduct).name}}
+                                </sapn>
+                        </div >
+                        <div   class="col-md-6" ng-if="getRequirement(action.product,action.requirement)">
+                                <span class="fa fa fa-minus-square-o "></span>&nbsp;&nbsp;
+                                <b> Requirement : </b>
+                                 <span class="data-analyse">{{getRequirement(action.product,action.requirement).name}}
+                                </sapn>
+                        </div>
+                </div>
+               
+                <div ng-if='showdetail[action._id]' >
+                    <div class="myTask " ng-class="{'col-md-12':!action.last,'col-md-6':action.last}">
+                        <fieldset>
+                            <div >
+                                <div class="caption  action-header  ">
+                                    <div class="row  ">
+                                     
+                                    </div>
+                                </div>
+                                <ul type="none" class="collaborators-page "  >
+                                    <br/>
+                                    
+                                    
+                                    <li>
+                                        <span class="fa fa fa-bookmark"></span>&nbsp;&nbsp;
+                                        <b>
+                                            Name : </b>
+                                        <span class="data-analyse">{{action.old.name}}
+                                        </sapn>
+                                    </li>
+                                    <li>
+                                        <span class="fa fa fa-adn"></span>&nbsp;&nbsp;
+                                        <b>
+                                                Description : </b>
+                                        <span class="data-analyse">{{action.old.description}}
+                                                     
+                                                 
+                                        </sapn>
+                                    </li>
+                                    <li class="deleteDefaultpadding"  >
+                                        <div class="progress collaborators-progress deleteDefaultpadding" >
+                                            <div class="progress-bar " role="progressbar" aria-valuenow="70"
+                                                aria-valuemin="0" aria-valuemax="100" style="width:{{action.old.progress}}%">
+                                                {{action.old.progress}}%
+                                                </div>
+                                        </div>
+                                    </li>
+                                    <li >
+                                        <span class="fa fa-hourglass-start"></span>&nbsp;&nbsp;
+                                        <b>Estimation : </b>
+                                        <span class="data-analyse">{{action.old.estimation}} {{action.old.unit}}</span>
+                                    </li>
+                                    <li >
+                                        <span class=" fa fa-list-alt"></span>
+                                        <b> Severity: </b>
+                                        <span class="{{getLabelSeverity(action.old.severity)}} priority-label">{{action.old.severity}}</span>
+                                    </li>
+                                    <li >
+                                        <span class="fa fa-clock-o"></span>&nbsp;&nbsp;
+                                                
+                                        <b>Created at : </b>
+                                        <span class="data-analyse">{{action.old.createdAt | date:"dd/MM/yyyy"}}</span>
+                                    </li>
+                               
+                                    <li >
+                                        <span class="fa fa-exclamation-circle"></span>&nbsp;&nbsp;
+                                        <b>Priority : </b> &nbsp;&nbsp;
+                                               
+                                                
+                                        <span class="{{getLabelPriority(action.old.priority)}} priority-label">{{action.old.priority}}</span>
+                                    </li>
+                                    <li >
+                                        <span class=" fa fa-list-alt"></span>
+                                        <b> Severity: </b>
+                                        <span class="{{getLabelSeverity(action.old.severity)}} priority-label">{{action.old.severity}}</span>
+                                    </li>
+                                    <li >
+                                        <span class=" fa fa-asterisk"></span>
+
+                                        <b>{{'State : '|translate}}</b>
+                                        <span>{{action.old.state}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="myTask col-md-6"  ng-if='action.last'>
+                        <fieldset>
+                            <div >
+                                <div class="caption  action-header  ">
+                                    <div class="row color-white "></div>
+                                </div>
+                                <br/>
+                                <ul type="none" class="collaborators-page "  >
+                                    <li>
+                                        <span class="fa fa fa-bookmark"></span>&nbsp;&nbsp;
+                                        <b>
+                                                Name : </b>
+                                        <span class="data-analyse">{{action.last.name}}
+                                                     
+                                                 
+                                        </sapn>
+                                    </li>
+                                    <li>
+                                        <span class="fa fa fa-adn"></span>&nbsp;&nbsp;
+                                        <b>
+                                                Description : </b>
+                                        <span class="data-analyse">{{action.last.description}}
+                                                     
+                                                 
+                                        </sapn>
+                                    </li>
+                                    <li class="deleteDefaultpadding"  >
+                                        <div class="progress collaborators-progress deleteDefaultpadding" >
+                                            <div class="progress-bar " role="progressbar" aria-valuenow="70"
+                                                aria-valuemin="0" aria-valuemax="100" style="width:{{action.last.progress}}%">
+                                                {{action.last.progress}}%
+                                                </div>
+                                        </div>
+                                    </li>
+                                    <li >
+                                        <span class="fa fa-hourglass-start"></span>&nbsp;&nbsp;
+                                        <b>Estimation : </b>
+                                        <span class="data-analyse">{{action.last.estimation}} {{action.last.unit}}</span>
+                                    </li>
+                                    <li >
+                                        <span class="fa fa-clock-o"></span>&nbsp;&nbsp;
+                                                
+                                        <b>Created at : </b>
+                                        <span class="data-analyse">{{action.last.createdAt | date:"dd/MM/yyyy"}}</span>
+                                    </li>
+                                </ul>
+                                <ul type="none" class="collaborators-page"  >
+                                    <li >
+                                        <span class="fa fa-exclamation-circle"></span>&nbsp;&nbsp;
+                                        <b>Priority : </b> &nbsp;&nbsp;
+                                               
+                                                
+                                        <span class="{{getLabelPriority(action.last.priority)}} priority-label">{{action.last.priority}}</span>
+                                    </li>
+                                    <li >
+                                        <span class=" fa fa-list-alt"></span>
+                                        <b> Severity: </b>
+                                        <span class="{{getLabelSeverity(action.last.severity)}} priority-label">{{action.last.severity}}</span>
+                                    </li>
+                                    <li >
+                                        <span class=" fa fa-asterisk"></span>
+                                        <b>{{'State : '|translate}}</b>
+                                        <span>{{action.last.state}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>

@@ -1,0 +1,24 @@
+<div ng-show="!user.isAuthenticated"  ng-controller="LoginCtrl">
+	<div class="panel panel-default-login">
+	  <div class="panel-heading" translate>Login</div>
+		<div class="panel-body">
+			<form ng-submit="login()" role="form">
+                <div class="input-group">
+                    <input class="form-control" data-ng-model="user.email" placeholder="{{'Email'|translate}}" autocomplete="on">
+                    <span class="input-group-addon"><i class="fa fa-at fa-fw"></i></span>
+                </div>
+                <p ng-if="required.email" class="error">{{"This field is required."}}</p>
+				<br />
+				<div class="input-group">
+					<input class="form-control" type="password" data-ng-model="user.password" placeholder="{{'Password'|translate}}" autocomplete="off">
+					<span class="input-group-addon"><i class="fa fa-lock fa-fw"></i></span>
+				</div>
+				<br />
+				<p class="text-center"><button type="submit" class="btn darkblue" translate>Log in</button></p>
+				<a ng-hide="reset.success" href ng-click="resetPassword()">{{'Forgot your password ?'}}</a><br>
+				<span ng-if="reset.success" class="color-green">{{'An email will be sent to your Primary Email address that includes your new password.' | translate}}</span>
+				<span ng-if="reset.error" class="error">{{'Invalid email.' | translate}}</span>
+			</form>
+        </div>
+	</div>
+</div>

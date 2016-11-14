@@ -1,0 +1,54 @@
+<div class="modal-header">
+    <div class="row vertical-align">
+        <div class="col-lg-8 col-md-6 col-xs-8">
+            <h3 class="modal-title"><i class="fa fa-user fa-fw"></i> {{'My account'|translate}}</h3>
+        </div>
+    </div>
+</div>
+<div class="modal-body">
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6 col-xs-6">
+                            <fieldset>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-adn"></i></span>
+                                    <input type="text" class="form-control" ng-model="user.firstName" placeholder="{{'Firstname'|translate}}"/>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6 col-xs-6">
+                            <fieldset>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-adn"></i></span>
+                                    <input type="text" class="form-control" ng-model="user.lastName" placeholder="{{'Lastname'|translate}}"/>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6 col-xs-6">
+                            <fieldset>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-at"></i></span>
+                                    <input type="text" class="form-control" ng-model="user.email" placeholder="{{'Email'|translate}}"/>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6 col-xs-6">
+                            <fieldset>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                    <input type="password" class="form-control" ng-model="user.password" placeholder="{{'Password'|translate}}"/>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary btn-sm" ng-click="save()"><i class="fa fa-floppy-o"></i> {{'Save'|translate}}</button>
+    <button class="btn btn-warning btn-sm" ng-click="cancel()"><i class="fa fa-undo"></i> {{'Cancel'|translate}}</button>
+</div>

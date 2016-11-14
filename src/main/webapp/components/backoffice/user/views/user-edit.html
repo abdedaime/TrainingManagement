@@ -1,0 +1,82 @@
+<div class="modal-header">
+    <div class="row vertical-align">
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <h3 class="modal-title"><i class="fa fa-pencil fa-fw">
+                </i>{{'Edit user'|translate}} : {{::user.email}}
+            </h3>
+        </div>
+    </div>
+</div>
+    <div class="modal-body">
+        <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6 col-xs-6">
+                        <fieldset>
+                            <div class="input-group"> <span class="input-group-addon"><i class="fa fa-adn"></i></span> <input type="text" class="form-control" ng-model="user.firstName" placeholder="{{'First name'|translate}}" /> </div> <span class="error" ng-if="required.firstName">{{'first name is required.'|translate}}</span> </fieldset>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <fieldset>
+                            <div class="input-group"> <span class="input-group-addon"><i class="fa fa-adn"></i></span> <input type="text" class="form-control" ng-model="user.lastName" placeholder="{{'Family name'|translate}}" /> </div> <span class="error" ng-if="required.lastName">{{'last name is required.'|translate}}</span> </fieldset>
+                    </div>
+                </div>
+        </div>
+        <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6 col-xs-6">
+                        <fieldset>
+                            <div class="input-group"> <span class="input-group-addon"><i class="fa fa-at"></i></span> <input type="text" class="form-control" ng-model="user.email" placeholder="{{'Email'|translate}}" /> </div> <span class="error" ng-if="required.email">{{'Invalid email address.'|translate}}</span> <span class="error" ng-if="!valide.email">{{'Invalid email address.'|translate}}</span> <span class="error" ng-if="duplicate.email">{{'Email address already exists.'|translate}}</span> </fieldset>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <fieldset>
+                            <div class="input-group"> <span class="input-group-addon"><i class="fa fa-key"></i></span> <input type="password" class="form-control" ng-model="user.password" placeholder="{{'Password'|translate}}" /> </div> <span class="error" ng-if="required.password">{{'password is required.'|translate}}</span> </fieldset>
+                    </div>
+                </div>
+        </div>
+        <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6 col-xs-6">
+                        <fieldset>
+                            <div class="input-group"> <span class="input-group-addon"><i class="fa fa-user-secret"></i></span> <select class="form-control" id="type" ng-model="user.type">
+                                                 <option value="" disabled selected>Access</option>
+                                               <option value="Full access" >{{'Full access'|translate}}</option>
+                                               <option value="Restricted access" >{{'Restricted access'|translate}}</option>
+                                              
+                                            </select> </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6 col-xs-6" ng-if='!myAccount'>
+                        <fieldset>
+                            <div class="input-group"> <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span> <select class="form-control" id="role" ng-model="user.role" ng-options="role as role.name for role in roles track by role.name">
+                                           
+                                            </select> </div>
+                        </fieldset>
+                    </div>
+                </div>
+        </div>
+        <div class="form-group" ng-if='!myAccount'>
+                <div class="row">
+                    <div class="col-md-6 col-xs-6">
+                        <fieldset>
+                            <div class="input-group"> <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                                <ui-select multiple ng-model="user.companies" on-select="users" theme="select2" style="width:100%" ng-change="filter()">
+                                    <ui-select-match placeholder="{{'Entities'|translate}}">{{$item.name}}</ui-select-match>
+                                    <ui-select-choices repeat="company as company in companies | propsFilter: {name: $select.search}">
+                                        <div ng-bind-html="company.name | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary btn-sm" ng-click="save()">
+        <i class="fa fa-floppy-o"></i>
+        {{'Save'|translate}}
+    </button>
+    <button class="btn btn-warning btn-sm" ng-click="cancel()">
+        <i class="fa fa-undo"></i> {{'Cancel'|translate}}
+    </button>
+</div>
